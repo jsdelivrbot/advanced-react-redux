@@ -99,9 +99,9 @@ const validate = formProps => {
 	return errors;
 }
 
-const mapStateToProps = state => {
-	return {errorMessage: state.auth.error};
-}
+const mapStateToProps = state => ({
+	errorMessage: state.auth.error
+})
 
 export default reduxForm({
 	form: 'signup',

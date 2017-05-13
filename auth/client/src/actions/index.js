@@ -3,7 +3,8 @@ import {browserHistory} from 'react-router';
 import {
 	AUTH_USER,
 	UNAUTH_USER,
-	AUTH_ERROR
+	AUTH_ERROR,
+	FETCH_MESSAGE
 } from './types';
 
 const ROOT_URL = 'http://localhost:3090';
@@ -42,7 +43,7 @@ export const signupUser = ({email, password}) => dispatch => {
 		})
 		.catch(response => {
 			console.log('response: ', response.data);
-			dispatch(authError('Email da dung'));
+			dispatch(authError(response.data.error));
 		}
 		);
 }
@@ -57,4 +58,18 @@ export const signoutUser = () => {
 	return {
 		type: UNAUTH_USER
 	}
+}
+
+export const fetchMessage = () => dispatch => {
+	axios.get(ROOT_URL, {
+		headers: {
+			authorization: localStorage.getItem('token')
+		}
+	}).then(response => {
+		console.log(response);
+		dispatch({
+			type: FETCH_MESSAGE,
+			payload: response.data.message
+		})
+	});
 }
